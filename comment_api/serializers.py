@@ -2,18 +2,11 @@ from rest_framework import serializers
 from .models import Comment, News
 import numpy as np
 import pickle
-from tensorflow.keras.models import load_model # type: ignore
+# from tensorflow.keras.models import load_model # type: ignore
 from sklearn.feature_extraction.text import CountVectorizer
 from django.conf import settings
 import os
-
-vectorizer_path = os.path.join(settings.BASE_DIR, 'comment_api', 'vectorizer.pkl')
-model_path = os.path.join(settings.BASE_DIR, 'comment_api', 'news_sentiment_model.h5')
-
-with open(vectorizer_path, 'rb') as f:
-    vectorizer = pickle.load(f)
-
-model = load_model(model_path)
+# from functools import lru_cache
 
 class CommentSerializer(serializers.Serializer):
     fname = serializers.CharField(max_length=50)
@@ -75,15 +68,24 @@ class NewsSerializer(serializers.ModelSerializer):
             Returns:
             - sentiment (str): Predicted sentiment ("Positive", "Neutral", "Negative").
         """        
+        
+        # Define model and vectorizer paths locally
+        vectorizer_path = os.path.join(settings.BASE_DIR, 'comment_api', 'vectorizer.pkl')
+        model_path = os.path.join(settings.BASE_DIR, 'comment_api', 'news_sentiment_model.h5')
 
-        # Combine headline and subheadline
+
+       # Lazy load and cache the model and vectorizer
+        if not hasattr(self, 'vectorizer'):
+            with open(vectorizer_path, 'rb') as f:
+                self.vectorizer = pickle.load(f)
+
+        if not hasattr(self, 'model'):
+            from tensorflow.keras.models import load_model  # type: ignore # Import only when needed
+            self.model = load_model(model_path)
+
         text = headline + " " + subheadline
+        text_vector = self.vectorizer.transform([text]).toarray()
+        predicted_class = np.argmax(self.model.predict(text_vector), axis=1)[0]
 
-        # Convert text to numerical features
-        text_vector = vectorizer.transform([text]).toarray()
-        # Predict sentiment
-        predicted_class = np.argmax(model.predict(text_vector), axis=1)[0]
-
-        # Map numeric prediction to sentiment label
         sentiment_map = {0: "Positive", 1: "Neutral", 2: "Negative"}
         return sentiment_map.get(predicted_class, "Unknown")
