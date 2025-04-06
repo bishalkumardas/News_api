@@ -4,14 +4,16 @@ import numpy as np
 import pickle
 from tensorflow.keras.models import load_model # type: ignore
 from sklearn.feature_extraction.text import CountVectorizer
+from django.conf import settings
+import os
 
+vectorizer_path = os.path.join(settings.BASE_DIR, 'comment_api', 'vectorizer.pkl')
+model_path = os.path.join(settings.BASE_DIR, 'comment_api', 'news_sentiment_model.h5')
 
-# Load the trained CountVectorizer
-with open('/home/bishal/Python/Djengo/REST Django API/api_django/comment_api/vectorizer.pkl', 'rb') as f:
+with open(vectorizer_path, 'rb') as f:
     vectorizer = pickle.load(f)
-# Load the trained deep learning model
-model = load_model('/home/bishal/Python/Djengo/REST Django API/api_django/comment_api/news_sentiment_model.h5')
 
+model = load_model(model_path)
 
 class CommentSerializer(serializers.Serializer):
     fname = serializers.CharField(max_length=50)
@@ -35,7 +37,7 @@ class NewsSerializer(serializers.ModelSerializer):
         """
         head = validated_data.get("head", "")
         sub_head = validated_data.get("sub_head", "")
-        print(head, sub_head)
+        print(head)
 
         # Predict sentiment
         predicted_sentiment = self.predict_sentiment(head, sub_head)

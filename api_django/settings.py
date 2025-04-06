@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-@9r*mz8$7$#y70#1y25f_qc0rj0ciws63hj1p%%aze9q@85d!7'
 
@@ -28,6 +31,7 @@ SECRET_KEY = 'django-insecure-@9r*mz8$7$#y70#1y25f_qc0rj0ciws63hj1p%%aze9q@85d!7
 DEBUG = True
 
 ALLOWED_HOSTS = ['news-api-w8ft.onrender.com']
+# ALLOWED_HOSTS = ['news-api-w8ft.onrender.com', '127.0.0.1']
 
 
 # Application definition
