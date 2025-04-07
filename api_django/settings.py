@@ -30,7 +30,8 @@ SECRET_KEY = 'django-insecure-@9r*mz8$7$#y70#1y25f_qc0rj0ciws63hj1p%%aze9q@85d!7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['news-api-w8ft.onrender.com']
+# ALLOWED_HOSTS = ['news-api-w8ft.onrender.com']
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['news-api-w8ft.onrender.com', '127.0.0.1']
 
 
@@ -94,7 +95,7 @@ WSGI_APPLICATION = 'api_django.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        'postgresql://finance_news_api_user:WgqkHuCXNbhlWncVkw3aqvWQeFHM7BuF@dpg-cvocflemcj7s7381me2g-a.oregon-postgres.render.com/finance_news_api'
+        'postgresql://finance_news_api_user:WgqkHuCXNbhlWncVkw3aqvWQeFHM7BuF@dpg-cvocflemcj7s7381me2g-a/finance_news_api'
     )
 }
 
