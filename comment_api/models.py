@@ -34,7 +34,7 @@ class News(models.Model):
     
     date=models.DateField()
     head=models.CharField(max_length=100)
-    sub_head=models.CharField(max_length=200)
+    sub_head=models.CharField(max_length=250)
     image_link=models.URLField()
     content=models.TextField()
     sentiment=models.CharField(max_length=8, choices=SENTIMENT_CHOICES, blank=True, null=True)
