@@ -66,7 +66,7 @@ CORS_ALLOW_ALL_ORIGINS = True  # ⚠️ Allow all origins (for testing)
 
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",  # API itself
-    "http://localhost:5000",  # If frontend runs on localhost:5000
+    "https://newsapi-production-178e.up.railway.app/"
 ]
 
 ROOT_URLCONF = 'api_django.urls'
